@@ -12,7 +12,7 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -21,7 +21,7 @@ public class UserController {
 
     @GetMapping("/user")
     public ResponseEntity<Object> getUser(@RequestParam Integer id) {
-        Optional user = userService.getUser(id);
+        Optional<User> user = userService.getUser(id);
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
         }
@@ -36,6 +36,28 @@ public class UserController {
         }
         else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User creation failed");
+        }
+    }
+
+    @DeleteMapping("/user")
+    public ResponseEntity<Object> deleteUser(@RequestParam Integer id) {
+        boolean deleted = userService.deleteUser(id);
+        if (deleted) {
+            return ResponseEntity.ok("User deleted");
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User deletion failed");
+        }
+    }
+
+    @PutMapping("/user")
+    public ResponseEntity<Object> updateUser(@RequestBody User user) {
+        User updatedUser = userService.updateUser(user);
+        if (updatedUser != null) {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User update failed");
         }
     }
 }

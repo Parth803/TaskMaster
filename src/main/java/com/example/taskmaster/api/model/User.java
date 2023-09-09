@@ -1,10 +1,15 @@
 package com.example.taskmaster.api.model;
 
-public class User {
+import jakarta.persistence.*;
 
+@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private int age;
+    @Column(nullable = false, unique = true)
     private String email;
 
     public User(int id, String name, int age, String email) {
@@ -12,6 +17,10 @@ public class User {
         this.name = name;
         this.age = age;
         this.email = email;
+    }
+
+    public User() {
+
     }
 
     public int getId() {
@@ -44,5 +53,15 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + "," +
+                ", age='" + age + ',' +
+                ", email='" + email + ',' +
+                '}';
     }
 }
