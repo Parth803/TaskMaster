@@ -12,15 +12,13 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    public User() {}
+
     public User(int id, String name, int age, String email) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.email = email;
-    }
-
-    public User() {
-
     }
 
     public int getId() {
